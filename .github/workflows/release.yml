@@ -1,0 +1,39 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Build
+      run: deno compile --allow-read --allow-write -o rowsplit ./mod.ts
+
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    needs: [build]
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Create release
+      uses: Roang-zero1/github-create-release-action@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    - name: Upload release artifacts
+      uses: Roang-zero1/github-upload-release-artifacts-action@v2
+      with:
+        args: "./rowsplit README.md"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
