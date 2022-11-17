@@ -22,14 +22,22 @@ jobs:
     - name: Build
       run: deno compile --allow-read --allow-write -o rowsplit ./mod.ts
 
-    - name: Create release
-      uses: Roang-zero1/github-create-release-action@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-    - name: Upload release artifacts
-      uses: Roang-zero1/github-upload-release-artifacts-action@v2
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        args: "./rowsplit README.md"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        files: |
+          rowsplit
+          README.md
+
+    # - name: Create release
+    #   uses: Roang-zero1/github-create-release-action@v2
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    # - name: Upload release artifacts
+    #   uses: Roang-zero1/github-upload-release-artifacts-action@v2
+    #   with:
+    #     args: "./rowsplit README.md"
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
