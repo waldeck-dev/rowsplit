@@ -29,15 +29,3 @@ jobs:
         files: |
           rowsplit
           README.md
-
-    # - name: Create release
-    #   uses: Roang-zero1/github-create-release-action@v2
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-    # - name: Upload release artifacts
-    #   uses: Roang-zero1/github-upload-release-artifacts-action@v2
-    #   with:
-    #     args: "./rowsplit README.md"
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
